@@ -47,7 +47,7 @@ function AddFormulaire() {
         </div>
 
         <div>
-          <label htmlFor="brand">Brand</label>
+          <label htmlFor="brand">Brands</label>
           <input onChange={handleInputChange} value={article.brand} type="text" name="brand" required/>
         </div>
 
