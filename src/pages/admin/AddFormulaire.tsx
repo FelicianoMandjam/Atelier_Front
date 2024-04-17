@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
-import { URL } from "../../utils/constants/URL.js";
+import { URL } from "../../utils/constants/URL";
+import axios from 'axios';
 
 
 function AddFormulaire() {
@@ -11,14 +12,21 @@ function AddFormulaire() {
     brand : "" , 
     price : "" ,
     content : "" , 
-    stock : "" , 
-    online : "" , 
-    picture: [] ,
+    stock : 0 , 
+    online : true , 
+    picture: "" ,
   })
 
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setArticle({ ...article, [name]: value });
+
+    if (name !== "picture") {
+      setArticle({ ...article, [name]: value });
+    }else{
+      setArticle({...article , [name]: [{img : value }] })
+    }
+
+    console.log(article)
 
   // Function pour la checkbox
   // function isOnline(e: React.ChangeEvent<HTMLInputElement>){
@@ -26,13 +34,18 @@ function AddFormulaire() {
   }
   // Function pour l'envoie du formulaire
 
-  const hundleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
+    console.log("Entree handleSubmit")
     e.preventDefault();
     try{
+    console.log("Entree try")
+
         // console.log(URL.USER_SIGNUP)
-        // console.log(user)
+        console.log(URL.ARTICLE_ADD)
+        console.log(article)
         const response = await axios.post( URL.ARTICLE_ADD, article)
         console.log(response)
+
     }catch(e){
         console.log(e);
     }
@@ -42,49 +55,49 @@ function AddFormulaire() {
   return (
     <div>
         <h1>Création de article</h1>
-      <form onSubmit={hundleSubmit}>
+      <form onSubmit={handleSubmit}>
 
         <div>
           <label htmlFor="name">Name</label>
-          <input onChange={handleInputChange} value={article.name} type="text" name="name" required/>
+          <input onChange={handleChange} value={article.name} type="text" name="name" required/>
         </div>
 
         <div>
           <label htmlFor="category">Category</label>
-          <input onChange={handleInputChange} value={article.category} type="text" name="category" required/>
+          <input onChange={handleChange} value={article.category} type="text" name="category" required/>
         </div>
 
         <div>
           <label htmlFor="brand">Brands</label>
-          <input onChange={handleInputChange} value={article.brand} type="text" name="brand" required/>
+          <input onChange={handleChange} value={article.brand} type="text" name="brand" required/>
         </div>
 
         <div>
           <label htmlFor="price">Price</label>
-          <input onChange={handleInputChange} value={article.price} type="number" name="price" required/>
+          <input onChange={handleChange} value={article.price} type="number" name="price" required/>
         </div>
 
         <div>
           <label htmlFor="content">Content</label>
-          <textarea onChange={handleInputChange} value={article.content} name="content" required></textarea>
+          <textarea onChange={handleChange} value={article.content} name="content" required></textarea>
         </div>
         
         <div>
           <label htmlFor="stock">Stock</label>
-          <input onChange={handleInputChange} value={article.stock} type="number" name="stock" />
+          <input onChange={handleChange} value={article.stock} type="number" name="stock" />
         </div>
-
+{/* 
         <fieldset>
         <legend>Disponibilité du produit.</legend>
         <div>
           <label htmlFor="online">Disponible</label>
-          <input onChange={handleInputChange} value={article.name} type="checkbox" name="online" id="online" value="online" required/>
+          <input onChange={handleChange} value={article.name} type="checkbox" name="online" id="online" value="online" required/>
         </div>
-        </fieldset>
+        </fieldset> */}
 
         <div>
           <label htmlFor="URL_image">L'URL de l'image</label>
-          <input name='picture' onChange={handleInputChange} value={article.picture} type="url" required/>
+          <input name='picture' onChange={handleChange} type="url" required/>
         </div>
         
         <button type="submit" value="Submit">Envoie</button>
