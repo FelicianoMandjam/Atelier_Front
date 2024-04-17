@@ -6,8 +6,12 @@ function Header() {
     <header className='header'>
       <nav>
       <NavLink to="/"> Accueil </NavLink>
-      <NavLink to="/formulaire"> Formulaire </NavLink>
+      {/* Si le role user  == admin afficher  /formulaire d'ajout   */}
+      <NavLink to="/formulaire"> Ajouter Formulaire </NavLink>
+      {/* ______________________________________________________ */}
       <NavLink to="/panier"> Panier </NavLink>
+      <NavLink to="/sign">Connexion </NavLink>
+      <NavLink to="/signUp"> S'inscrire </NavLink>
       </nav>
     </header>
   )

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { URL } from "../../utils/constants/URL.js";
+import { URL } from "../../utils/constants/URL";
 
 const SignUp = () => {
     const [ user , setUser ]= useState({
@@ -17,7 +17,7 @@ const SignUp = () => {
 
 
     const hundleSubmit = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         try{
             const response = await axios.post( URL.USER_SIGNUP, user)
             console.log(response)

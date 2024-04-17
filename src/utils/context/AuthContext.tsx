@@ -1,5 +1,5 @@
 import React , { createContext , useState , useEffect} from 'react'
-import { URL } from "../constants/URL.js"
+import { URL } from "../constants/URL"
 import axios from 'axios'
 
 // Créez un contexte d'authentification 
@@ -14,19 +14,26 @@ export const AuthProvider = ({ children }) => {
 
     // Fonction pour gérer l'authentification de l'utilisateur
     const login = async (dataForm) => {
-        console.log("Salah")
+        console.log("Entree dans login")
+        console.log(dataForm)
+        
         // API 
         setIsLoading(true) 
         try{
+            console.log("bdckjdsb")
             const { data, status } = await axios.post(URL.USER_SIGN , dataForm)
-            console.log(data)
-
             if(status === 200){
                 // Mettre à jours l'etat du state (user) avec les données de l'utilisateur
                 setUser(data)
+                console.log(user)
 
-                // Stockez les données de l'utilisatuer dans le asynctorage
-
+                // Stockez les données de l'utilisatuer dans le local Storage
+                
+                const userSend = localStorage.setItem( "user" , JSON.stringify(user));
+                // console.log(localStorage.getItem("user"))
+                const recupUser = localStorage.getItem("user");
+                const userTransformObj = JSON.parse(recupUser);
+                
                 // Met isLoading à false apres une authentification
                 setIsLoading(false)
             }
