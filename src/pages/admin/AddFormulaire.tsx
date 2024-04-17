@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
+import { URL } from "../../utils/constants/URL.js";
+
 
 function AddFormulaire() {
   // Faire une interface pour le useState 
@@ -24,17 +26,23 @@ function AddFormulaire() {
   }
   // Function pour l'envoie du formulaire
 
-  function sendForm(e) {
-    e.preventDefault()
-    console.log(article)
+  const hundleSubmit = async (e) => {
+    e.preventDefault();
+    try{
+        // console.log(URL.USER_SIGNUP)
+        // console.log(user)
+        const response = await axios.post( URL.ARTICLE_ADD, article)
+        console.log(response)
+    }catch(e){
+        console.log(e);
+    }
   }
-
 
 
   return (
     <div>
         <h1>Création de article</h1>
-      <form onSubmit={sendForm}>
+      <form onSubmit={hundleSubmit}>
 
         <div>
           <label htmlFor="name">Name</label>
@@ -87,3 +95,21 @@ function AddFormulaire() {
 }
 
 export default AddFormulaire;
+
+/* name : { type: String, required: true },
+  category: { type: String, required: true },
+  brand: { type: String, required: true },
+  price: { type: Number, required: true },
+  content: { type: String, required: true },
+  stock: { type: Number, required: true },
+  online: { type: Boolean, required: true },
+  avis: [{ type: mongoose.Schema.Types.ObjectId, ref: "Avis" }],
+  picture: [
+    {
+      img: { type: String, required: true },
+      img1: { type: String },
+      img2: { type: String },
+      img3: { type: String },
+      img4: { type: String },
+    },
+  ],*/ 
