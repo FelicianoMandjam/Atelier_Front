@@ -2,39 +2,71 @@ import React from 'react'
 import { URL } from "../../../utils/constants/URL";
 import { useEffect , useState } from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import articles, * as ACTIONS from "../../../redux/reducers/article"
+import { allArticles } from '../../../services/selector/articles.selector';
 
 function Home(){
-  let articles = [] ; 
-  console.log("Entree Hame() ")
+ const dispatch = useDispatch(); 
 
-const recupAllArticles: any = async () => {
-  // e.preventDefault()
-try {
-  console.log("Entree Axios")
-  const responses = await axios.get(URL.ALL_ARTICLES)
-  // Pour récuperer 1 element faut mettre l'elemenet axios.get(URL.ALL_ARTICLES , ID ) 
-  console.log(responses.data)
-  articles = responses.data
+ const store = useSelector((state) => allArticles(state))
 
-  console.log(articles[1].name)
+ useEffect(()=>{
 
-} catch (e) {
-  console.log(e)
-}
-}
-recupAllArticles()
+  dispatch(ACTIONS.FETCH_START());
+
+  const fetchArticles = async ()=>{
+    console.log("fetchArticles")
+        try {
+          console.log("Entree Axios")
+          const { data , status } = await axios.get(URL.ALL_ARTICLES)
+          
+          dispatch(ACTIONS.FETCH_SUCCES(data))
+          console.log("Entrée status")
+          console.log(status)
+          console.log(store)
+    } catch (e) {
+    console.log(e)
+    dispatch(ACTIONS.FETCH_FAILURE())
+    }
+  };
+  fetchArticles()
+ },[])
+
 
 
   return (
     <div>
       <h1> Home Page </h1>
-      <div className='product'>
-      { articles.map( article => <p>{article.name }</p> )}
-        
-      </div>
+      {store.map((element , index) => (
+        <div>
+          <h1> {element.name} </h1>
+        </div>
+      ))}
     </div>
   )
 }
 
 export default Home
 
+
+
+// let articles = [] ; 
+// console.log("Entree Hame() ")
+
+// const recupAllArticles: any = async () => {
+// // e.preventDefault()
+// try {
+// console.log("Entree Axios")
+// const responses = await axios.get(URL.ALL_ARTICLES)
+// // Pour récuperer 1 element faut mettre l'elemenet axios.get(URL.ALL_ARTICLES , ID ) 
+// console.log(responses.data)
+// articles = responses.data
+// console.log(articles[0].name)
+// // const afficheArticle = articles.map(article => console.log(article.map))
+// // console.log(afficheArticle)
+// } catch (e) {
+// console.log(e)
+// }
+// }
+// recupAllArticles()
