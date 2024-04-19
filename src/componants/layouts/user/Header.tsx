@@ -1,5 +1,6 @@
 import React from 'react'
-import { NavLink } from "react-router-dom";
+import { NavLink , Link } from "react-router-dom";
+import Logout from '../../../pages/pageAuth/Logout';
 
 function Header() {
   return (
@@ -12,6 +13,7 @@ function Header() {
       <NavLink to="/panier"> Panier </NavLink>
       <NavLink to="/sign">Connexion </NavLink>
       <NavLink to="/signUp"> S'inscrire </NavLink>
+      <Logout/>
       </nav>
     </header>
   )

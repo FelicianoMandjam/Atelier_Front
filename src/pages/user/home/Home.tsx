@@ -16,9 +16,9 @@ function Home(){
   dispatch(ACTIONS.FETCH_START());
 
   const fetchArticles = async ()=>{
-    console.log("fetchArticles")
+          console.log("fetchArticles")
         try {
-          console.log("Entree Axios")
+          console.log("Entree try - Axios")
           const { data , status } = await axios.get(URL.ALL_ARTICLES)
           
           dispatch(ACTIONS.FETCH_SUCCES(data))
@@ -26,8 +26,8 @@ function Home(){
           console.log(status)
           console.log(store)
     } catch (e) {
-    console.log(e)
-    dispatch(ACTIONS.FETCH_FAILURE())
+          console.log(e)
+          dispatch(ACTIONS.FETCH_FAILURE())
     }
   };
   fetchArticles()
@@ -38,9 +38,18 @@ function Home(){
   return (
     <div>
       <h1> Home Page </h1>
-      {store.map((element , index) => (
-        <div>
-          <h1> {element.name} </h1>
+      {store.map((article , index) => (
+        <div className='card-Product' key={index}>
+          <fieldset>
+          <p> {article.brand} </p>
+          <p> {article.name} </p>
+          <p> {article.price +" €"} </p>
+          <p> {article.content} </p>
+          <img 
+          src={article.picture[0].img} 
+          alt="Image NA" 
+          width={100} />
+          </fieldset>
         </div>
       ))}
     </div>
