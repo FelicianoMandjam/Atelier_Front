@@ -20,20 +20,17 @@ export const AuthProvider = ({ children }) => {
         // API 
         setIsLoading(true) 
         try{
-            console.log("bdckjdsb")
+            console.log("Entree dans le try de AuthContext")
             const { data, status } = await axios.post(URL.USER_SIGN , dataForm)
             if(status === 200){
                 // Mettre à jours l'etat du state (user) avec les données de l'utilisateur
                 setUser(data)
                 console.log(user)
-
                 // Stockez les données de l'utilisatuer dans le local Storage
-                
-                const userSend = localStorage.setItem( "user" , JSON.stringify(user));
+                localStorage.setItem( "user" , JSON.stringify(user));
                 // console.log(localStorage.getItem("user"))
                 const recupUser = localStorage.getItem("user");
                 const userTransformObj = JSON.parse(recupUser);
-                
                 // Met isLoading à false apres une authentification
                 setIsLoading(false)
             }
@@ -43,8 +40,14 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const logout = () => {
+        console.log("Entrée dans logout()")
+        localStorage.removeItem("user")
+        
+    }
+
     return (
-        <AuthContext.Provider value={{ login , user , isLoading }}>
+        <AuthContext.Provider value={{ logout, login , user , isLoading }}>
             {children}
         </AuthContext.Provider>
     )
